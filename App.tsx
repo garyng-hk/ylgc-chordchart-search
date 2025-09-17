@@ -25,19 +25,15 @@ const App: React.FC = () => {
           <SearchBar
             // ... (props 不變)
           />
-          {error && (
-            // ... (錯誤訊息不變)
+  {error && (
+            <div
+              className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative"
+              role="alert"
+            >
+              <strong className="font-bold">錯誤: </strong>
+              <span className="block sm:inline">{error}</span>
+            </div>
           )}
-          {isLoading ? (
-            <Spinner />
-          ) : (
-            <ResultsList 
-              results={results} 
-              hasSearched={hasSearched}
-              onFileSelect={(file) => setSelectedFile(file)} // <-- 3. 傳入設定 selectedFile 的函式
-            />
-          )}
-        </div>
       </main>
       
       {/* 4. 在 App 的最外層渲染 Modal 元件 */}
