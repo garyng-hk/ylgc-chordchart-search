@@ -47,7 +47,7 @@ const App: React.FC = () => {
             <ResultsList 
               results={results} 
               hasSearched={hasSearched}
-              onFileSelect={(file) => setSelectedFile(file)}
+              onFileSelect={(file) => console.log('File selected in App.tsx! File name:', file.name); setSelectedFile(file)}
             />
           )}
 
