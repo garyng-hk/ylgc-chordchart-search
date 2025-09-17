@@ -18,14 +18,20 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen font-sans text-slate-800 dark:text-slate-200">
+<div className="min-h-screen font-sans text-slate-800 dark:text-slate-200">
       <Header />
       <main className="container mx-auto p-4 md:p-6 lg:p-8 max-w-4xl">
-        <div className="space-y-6">
+        <div className="space-y-6"> {/* <--- 這個 div 打開了 */}
+        
           <SearchBar
-            // ... (props 不變)
+            searchParams={searchParams}
+            setSearchParams={setSearchParams}
+            onSubmit={handleSearch}
+            onClear={handleClear}
+            isLoading={isLoading}
           />
-  {error && (
+          
+          {error && (
             <div
               className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative"
               role="alert"
@@ -34,13 +40,25 @@ const App: React.FC = () => {
               <span className="block sm:inline">{error}</span>
             </div>
           )}
+
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            <ResultsList 
+              results={results} 
+              hasSearched={hasSearched}
+              onFileSelect={(file) => setSelectedFile(file)}
+            />
+          )}
+
+        </div> {/* <--- 在 </main> 之前，這個 div 必須在這裡關閉 */}
       </main>
-      
-      {/* 4. 在 App 的最外層渲染 Modal 元件 */}
+
       <PdfViewerModal 
         file={selectedFile}
         onClose={() => setSelectedFile(null)}
       />
+
     </div>
   );
 };
