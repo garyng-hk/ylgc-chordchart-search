@@ -1,0 +1,52 @@
+# 工作流程名稱
+name: Deploy to GitHub Pages
+
+# 觸發條件：當推送到 main 分支時觸發
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+# 權限設定：允許 Action 寫入部署內容
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 工作定義
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # 步驟 1: 拉取你的程式碼
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 步驟 2: 設定 Node.js 環境
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20 # 可以根據你的 package.json 調整
+
+      # 步驟 3: 安裝依賴
+      - name: Install dependencies
+        run: npm install
+
+      # 步驟 4: 編譯專案 (Vite 會將結果輸出到 dist 資料夾)
+      - name: Build
+        run: npm run build
+
+      # 步驟 5: 設定 GitHub Pages
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      # 步驟 6: 上傳編譯好的成品 (dist 資料夾)
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+
+      # 步驟 7: 部署到 GitHub Pages
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
