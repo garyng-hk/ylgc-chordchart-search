@@ -1,0 +1,5 @@
+{
+  "name": "YLGC chordchart Search System",
+  "description": "A web application to search for music scores / chordcharts (PDFs) from a specified Google Drive folder using song title, key, or lyrics.",
+  "requestFramePermissions": []
+}
